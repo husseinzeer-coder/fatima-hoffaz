@@ -64,7 +64,7 @@
     .fail { background: #f9c4c4; color: #991c1c; }
     .joined { grid-column: 2 / 5; background: #f7dede; color: #982525; font-size: 22px; font-weight: 800; }
     .joined.dark { background: #60686b; color: white; }
-    .foot { color: #74827a; text-align: center; font-size: 12px; margin-top: 20px; }
+    .foot { display: none;}
 
     /* 8) الهاتف: يبقى الكشف كاملًا ويمكن تمريره أفقيًا */
     @media (max-width: 850px) {
@@ -350,17 +350,29 @@ async function downloadPNG() {
     button.disabled = true;
     button.textContent = "جارٍ تجهيز الصورة...";
 
-    const image = await htmlToImage.toPng(report, {
-      pixelRatio: 3,
+    // أخذ الأبعاد الحقيقية الكاملة للتقرير
+    const width = report.scrollWidth;
+    const height = report.scrollHeight;
+
+    const dataUrl = await htmlToImage.toPng(report, {
       backgroundColor: "#ffffff",
-      cacheBust: true
+      pixelRatio: 2,
+      cacheBust: true,
+      width: width,
+      height: height,
+      canvasWidth: width * 2,
+      canvasHeight: height * 2,
+      style: {
+        width: width + "px",
+        height: height + "px"
+      }
     });
 
-    const date = document.getElementById("date").value;
+    const date = document.getElementById("date").value || "بدون-تاريخ";
 
     const link = document.createElement("a");
     link.download = `إنجاز-التسميع-${date}.png`;
-    link.href = image;
+    link.href = dataUrl;
     link.click();
 
   } catch (error) {
