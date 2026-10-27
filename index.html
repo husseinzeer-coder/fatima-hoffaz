@@ -342,43 +342,74 @@
     renderPreview();
 
     
+
 async function downloadPNG() {
   const report = document.querySelector(".sheet");
   const button = document.getElementById("downloadPNG");
+
+  let exportBox;
 
   try {
     button.disabled = true;
     button.textContent = "جارٍ تجهيز الصورة...";
 
-    // أخذ الأبعاد الحقيقية الكاملة للتقرير
-    const width = report.scrollWidth;
-    const height = report.scrollHeight;
+    // إنشاء مساحة تصدير مؤقتة خارج الشاشة
+    exportBox = document.createElement("div");
 
-    const dataUrl = await htmlToImage.toPng(report, {
-      backgroundColor: "#ffffff",
-      pixelRatio: 2,
-      cacheBust: true,
-      width: width,
-      height: height,
-      canvasWidth: width * 2,
-      canvasHeight: height * 2,
-      style: {
-        width: width + "px",
-        height: height + "px"
-      }
+    Object.assign(exportBox.style, {
+      position: "fixed",
+      left: "-10000px",
+      top: "0",
+      width: "1200px",
+      padding: "32px",
+      background: "#ffffff",
+      boxSizing: "border-box"
     });
 
-    const date = document.getElementById("date").value || "بدون-تاريخ";
+    // نسخ التقرير دون التأثير على المعاينة الأصلية
+    const copy = report.cloneNode(true);
 
+    Object.assign(copy.style, {
+      width: "100%",
+      minWidth: "0",
+      height: "auto",
+      margin: "0",
+      padding: "0",
+      overflow: "visible"
+    });
+
+    exportBox.appendChild(copy);
+    document.body.appendChild(exportBox);
+
+    // التأكد من تحميل الخطوط قبل التصوير
+    await document.fonts.ready;
+
+    // قياس الارتفاع النهائي بعد ترتيب المحتوى
+    const width = exportBox.offsetWidth;
+    const height = exportBox.scrollHeight;
+
+    const image = await htmlToImage.toPng(exportBox, {
+      backgroundColor: "#ffffff",
+      pixelRatio: 2,
+      width: width,
+      height: height
+    });
+
+    const date = document.getElementById("date").value;
     const link = document.createElement("a");
+
     link.download = `إنجاز-التسميع-${date}.png`;
-    link.href = dataUrl;
+    link.href = image;
     link.click();
 
   } catch (error) {
     console.error(error);
-    alert("حدث خطأ أثناء إنشاء الصورة.");
+    alert("تعذّر استخراج الصورة. راجع وحدة التحكم للأخطاء.");
+
   } finally {
+    // حذف النسخة المؤقتة وإعادة الزر إلى وضعه الطبيعي
+    if (exportBox) exportBox.remove();
+
     button.disabled = false;
     button.textContent = "تحميل صورة PNG";
   }
