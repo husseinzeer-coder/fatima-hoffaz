@@ -84,6 +84,7 @@
       @page { size: A4 landscape; margin: 6mm; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js"></script>
 </head>
 <body>
   <main class="wrap">
@@ -101,7 +102,7 @@
       <div class="actions">
         <button id="import">استيراد البيانات</button>
         <button class="secondary" id="reset">تفريغ بيانات اليوم</button>
-        <button class="secondary" onclick="window.print()">طباعة / حفظ PDF</button>
+        <button class="secondary" id="downloadPNG"> تحميل صورة PNG </button>
         <span id="notice" aria-live="polite"></span>
       </div>
       <div class="entry" id="editors"></div>
@@ -339,6 +340,41 @@
 
     renderEditors();
     renderPreview();
+
+    
+async function downloadPNG() {
+  const report = document.querySelector(".sheet");
+  const button = document.getElementById("downloadPNG");
+
+  try {
+    button.disabled = true;
+    button.textContent = "جارٍ تجهيز الصورة...";
+
+    const image = await htmlToImage.toPng(report, {
+      pixelRatio: 3,
+      backgroundColor: "#ffffff",
+      cacheBust: true
+    });
+
+    const date = document.getElementById("date").value;
+
+    const link = document.createElement("a");
+    link.download = `إنجاز-التسميع-${date}.png`;
+    link.href = image;
+    link.click();
+
+  } catch (error) {
+    console.error(error);
+    alert("حدث خطأ أثناء إنشاء الصورة.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "تحميل صورة PNG";
+  }
+}
+
+document.getElementById("downloadPNG")
+  .addEventListener("click", downloadPNG);
+
   </script>
 </body>
 </html>
