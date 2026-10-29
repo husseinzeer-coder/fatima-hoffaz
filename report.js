@@ -18,7 +18,7 @@ window.ReportRenderer = (() => {
   function drawField(value,x,y,w,h,fill,fs=21,weight='600',color=colors.ink){
     rounded(x,y,w,h,9,fill);
     // إطار ذهبي رفيع للخانات الكريمية الفارغة فقط.
-    if(fill===colors.neutral && !String(value??'').trim()){
+    if(fill===colors.neutral).trim()){
       ctx.save();
       ctx.beginPath();
       ctx.roundRect(x+0.6,y+0.6,w-1.2,h-1.2,9);
