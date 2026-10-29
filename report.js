@@ -35,7 +35,7 @@ window.ReportRenderer = (() => {
   }
   function drawGroup(group,idx,records){
     // حدود ألواح الخلفية: يمين 807–1568، يسار 32–790؛ المساحة البيضاء تبدأ أسفل اسم المجموعة.
-    const x=idx===0?827:52; const width=720; const y=356; const gap=5;const nameW=174,recW=304,evalW=115,doneW=112;
+    const x=idx===0?842:52; const width=720; const y=356; const gap=5;const nameW=174,recW=304,evalW=115,doneW=112;
     const columns=[{w:nameW,name:'الاسم'},{w:recW,name:'التسميع'},{w:evalW,name:'التقييم'},{w:doneW,name:'إنجاز المطلوب'}];
     // ترتيب RTL: الاسم أقصى اليمين، ثم التسميع، التقييم، الإنجاز.
     let xx=x+width;
