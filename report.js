@@ -129,9 +129,9 @@ window.ReportRenderer = (() => {
     ctx.drawImage(bg,0,0,W,H);
     const dt = new Date((date || '2026-10-24')+'T12:00:00');
     const day = isNaN(dt) ? '' : days[dt.getDay()];
-    rounded(1248,119,132,34,5,'#fffaf1');
-    rounded(1248,164,132,34,5,'#fffaf1');
-    text(day,1314,136,120,22,colors.ink,'700');
+    rounded(1265,119,132,34,5,'#fffaf1');
+    rounded(1265,164,132,34,5,'#fffaf1');
+    text(day,1330,136,120,22,colors.ink,'700');
     text(date ? `${Number(date.slice(8,10))} / ${Number(date.slice(5,7))}` : '',1314,181,122,22,colors.ink,'700');
     groups.forEach((g,i) => drawGroup(g,i,records));
     return canvas;
