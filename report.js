@@ -85,7 +85,7 @@ window.ReportRenderer = (() => {
     let xx = x + width;
     columns.forEach(col => {
       xx -= col.w;
-      drawField(col.name,xx,y,col.w,44,'rgba(229,237,231,.91)',17,'700');
+      drawField(col.name,xx,y,col.w,44,'#D5E5D9',19,'700','#164E3D');
       xx -= gap;
     });
     const maxRows = Math.max(6,group.students.length);
@@ -100,7 +100,7 @@ window.ReportRenderer = (() => {
       const recX = nameX - gap - recW;
       const evalX = recX - gap - evalW;
       const doneX = evalX - gap - doneW;
-      drawField(student.name,nameX,yy,nameW,rowH,'rgba(246,238,219,.96)',19,'700');
+      drawField(student.name,nameX,yy,nameW,rowH,'#E9D6AB',23,'700');
       if (r.done === 'absent' || r.done === 'blocked') {
         const mergedWidth = recW + evalW + doneW + gap*2;
         drawField(r.done === 'absent' ? 'غائب' : '-',doneX,yy,mergedWidth,rowH,
@@ -129,10 +129,10 @@ window.ReportRenderer = (() => {
     ctx.drawImage(bg,0,0,W,H);
     const dt = new Date((date || '2026-10-24')+'T12:00:00');
     const day = isNaN(dt) ? '' : days[dt.getDay()];
-    rounded(1265,119,132,34,5,'#fffaf1');
-    rounded(1265,164,132,34,5,'#fffaf1');
-    text(day,1330,136,120,22,colors.ink,'700');
-    text(date ? `${Number(date.slice(8,10))} / ${Number(date.slice(5,7))}` : '',1314,181,122,22,colors.ink,'700');
+    rounded(1262,119,132,34,5,'#fffaf1');
+    rounded(1262,164,132,34,5,'#fffaf1');
+    text(day,1328,136,120,22,colors.ink,'700');
+    text(date ? `${Number(date.slice(8,10))} / ${Number(date.slice(5,7))}` : '',1328,181,122,22,colors.ink,'700');
     groups.forEach((g,i) => drawGroup(g,i,records));
     return canvas;
   }
