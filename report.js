@@ -7,7 +7,7 @@ window.ReportRenderer = (() => {
   const img=new Image();img.src='assets/background.png';
   const backgroundReady=new Promise((resolve,reject)=>{img.onload=()=>{bg=img;resolve()};img.onerror=()=>reject(Error('تعذّر تحميل الخلفية assets/background.png'))});
   const days=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  const colors={green:'#bce8c5',orange:'#ffddb5',red:'#f7c8c8',gray:'#646b6d',neutral:'rgba(243,245,239,.87)',ink:'#073f32',redText:'#9e2121'};
+  const colors={green:'#A8D5B5',orange:'#F2C991',red:'#E8B1AA',gray:'#626967',neutral:'FFF9EF',ink:'#063F32',redText:'#912F2B'};
   function rounded(x,y,w,h,r,fill){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill()}
   function text(t,x,y,maxWidth,size=21,color=colors.ink,weight='600',align='center'){
     ctx.save();ctx.direction='rtl';ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillStyle=color;ctx.font=`${weight} ${size}px Tahoma, Arial, sans-serif`;
@@ -15,7 +15,7 @@ window.ReportRenderer = (() => {
     ctx.fillText(s,x,y,maxWidth);ctx.restore();
   }
   function splitText(value,maxWidth,size=19){let words=String(value||'').split(/\s+/);if(words.length<2)return [String(value||'')];ctx.font=`500 ${size}px Tahoma`;let lines=[''];words.forEach(word=>{let last=lines.length-1;let next=lines[last]?lines[last]+' '+word:word;if(ctx.measureText(next).width>maxWidth && lines[last] && lines.length<2)lines.push(word);else lines[last]=next});return lines}
-  function drawField(value,x,y,w,h,fill,fs=21,weight='600',color=colors.ink){rounded(x,y,w,h,9,fill);let lines=splitText(value,w-12,fs);if(lines.length===2){text(lines[0],x+w/2,y+h/2-13,w-12,fs-2,color,weight);text(lines[1],x+w/2,y+h/2+13,w-12,fs-2,color,weight)}else text(value,x+w/2,y+h/2,w-10,fs,color,weight)}
+  function drawField(value,x,y,w,h,fill,fs=21,weight='600',color=colors.ink){rounded(x,y,w,h,9,fill) if (fill === colors.neutral && !String(value ?? '').trim()){ctx.strokeStyle = '#C69A3A';ctx.lineWidth = 1.2;ctx.stroke();};let lines=splitText(value,w-12,fs);if(lines.length===2){text(lines[0],x+w/2,y+h/2-13,w-12,fs-2,color,weight);text(lines[1],x+w/2,y+h/2+13,w-12,fs-2,color,weight)}else text(value,x+w/2,y+h/2,w-10,fs,color,weight)}
   function drawGroup(group,idx,records){
     // حدود ألواح الخلفية: يمين 807–1568، يسار 32–790؛ المساحة البيضاء تبدأ أسفل اسم المجموعة.
     const x=idx===0?827:52; const width=720; const y=356; const gap=5;const nameW=174,recW=304,evalW=115,doneW=112;
