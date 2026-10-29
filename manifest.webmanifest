@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "إنجاز التسميع اليومي — شُعب الحفاظ",
+  "short_name": "إنجاز الحفاظ",
+  "description": "أداة متابعة إنجاز التسميع اليومي في شُعب الحفاظ",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF9EF",
+  "theme_color": "#104C39",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
